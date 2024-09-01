@@ -5,6 +5,13 @@ module Types
   StrongString = String.constructor(->(val){ val.to_s })
 end
 
+require 'rest-client'
+require 'json'
+require 'fileutils'
+
+require_relative 'webamm/cli/fetch_template'
+require_relative 'webamm/cli/processor'
+
 require_relative 'webamm/database/schema/column'
 require_relative 'webamm/database/schema/index'
 require_relative 'webamm/authentication'
@@ -28,6 +35,23 @@ module Webamm
         end
       end
       attribute :relationships, Types::Array.of(Webamm::Database::Relationship).default([].freeze)
+    end
+  end
+
+  class << self
+    def build(files)
+      dir_name = "webamm_app-#{Time.now.strftime('%Y%m%d%H%M%S')}"
+      FileUtils.mkdir_p(dir_name)
+      Dir.chdir(dir_name)
+
+      files.each do |file|
+        puts "-> \e[1;32;49mCreate\e[0m #{file['path']}"
+        file_path = File.join(Dir.pwd, file['path'])
+        FileUtils.mkdir_p(File.dirname(file_path))
+        File.write(file_path, file['content'])
+      end
+
+      FileUtils.chmod_R("u+x", './bin')
     end
   end
 end

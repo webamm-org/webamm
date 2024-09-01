@@ -12,8 +12,11 @@ Gem::Specification.new do |spec|
   spec.version       = Webamm::VERSION.dup
   spec.summary       = 'Web Application Metadata Markup'
   spec.description   = spec.summary
-  spec.files         = Dir['README.md', 'webamm.gemspec', 'lib/**/*']
+  spec.files         = Dir['README.md', 'webamm.gemspec', 'bin/*', 'lib/**/*']
+  spec.bindir        = 'bin'
+  spec.executables   = ['webamm']
   spec.require_paths = ['lib']
   spec.add_runtime_dependency 'dry-struct', '1.6.0'
+  spec.add_runtime_dependency 'rest-client', '2.1.0'
   spec.required_ruby_version = '>= 3.2.2'
 end

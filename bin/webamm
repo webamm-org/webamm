@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'webamm'
+
+command_line_arguments = ARGV.dup
+
+Webamm::Cli::Processor.new(command_line_arguments).call
